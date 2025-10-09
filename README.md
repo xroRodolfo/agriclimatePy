@@ -4,7 +4,7 @@
   - agriclimatePy es un proyecto para el análisis del impacto del cambio climático en la agricultura. Proporciona un flujo reproducible —desde la preparación de los datos hasta el análisis estadístico y la visualización— que facilita explorar la relación entre variables climáticas, prácticas agrícolas y rendimiento de cultivos.
 
 - **Estructura del repositorio**  
- **Contenido y dónde encontrarlo (descripciones ejecutables en MD)**  
+ **Contenido y dónde encontrarlo**  
 - **`backend/`** — lógica reutilizable y preparación de datos  
   - `limpiezaDeDatos.py` — script de preparación: normaliza nombres de columnas, elimina duplicados, limpia variables textuales (país, región, tipo de cultivo, estrategias de adaptación), filtra temperaturas fuera de rango, convierte columnas numéricas y guarda `dataset_unificado.csv`. *(Punto de entrada para obtener datos listos para análisis.)*  
   - `analysis.py` — funciones para análisis: promedio de producción por año, correlaciones Pearson/Spearman entre variables climáticas y rendimiento, y resumen estadístico. *(Se usa desde notebooks o scripts.)*  
