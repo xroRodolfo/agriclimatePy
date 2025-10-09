@@ -1,4 +1,4 @@
-def produccion_promedio_por_anio(df):
+'''def produccion_promedio_por_anio(df):
     """
     Retorna la producción promedio agrupada por año.
     Ajustado al dataset de Kaggle.
@@ -17,4 +17,4 @@ def correlacion_clima_produccion(df):
     disponibles = [col for col in variables if col in df.columns]
     if len(disponibles) < 2:
         raise ValueError("No hay suficientes columnas climáticas y de producción para calcular correlación.")
-    return df[disponibles].corr()
+    return df[disponibles].corr()'''
