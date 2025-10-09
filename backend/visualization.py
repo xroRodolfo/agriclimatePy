@@ -1,16 +1,19 @@
+# visualization.py
 import matplotlib.pyplot as plt
+import pandas as pd
 
-def grafico_produccion_por_anio(df):
-    """
-    Genera un gráfico de línea mostrando la producción promedio por año.
-    """
-    if "Year" not in df.columns or "Production" not in df.columns:
-        raise ValueError("El dataset no contiene columnas 'Year' o 'Production'.")
+from .analysis import produccion_promedio_por_anio
 
-    fig, ax = plt.subplots(figsize=(6,4))
-    df.groupby("Year")["Production"].mean().plot(ax=ax, marker="o")
-    ax.set_title("Producción agrícola promedio por año")
-    ax.set_ylabel("Producción (toneladas/ha)")
+def grafico_produccion_por_anio(df: pd.DataFrame):
+    """
+    Línea temporal del rendimiento promedio por año.
+    Retorna la figura para que main.py pueda hacer plt.show().
+    """
+    serie = produccion_promedio_por_anio(df)
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.plot(serie.index, serie.values, marker="o")
+    ax.set_title("Rendimiento promedio por año (t/ha)")
     ax.set_xlabel("Año")
-    plt.tight_layout()
+    ax.set_ylabel("t/ha")
+    ax.grid(True, alpha=0.3)
     return fig
