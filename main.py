@@ -1,21 +1,32 @@
 from backend.loader import cargar_dataset, limpiar_dataset
-from backend.analysis import produccion_promedio_por_anio, correlacion_clima_produccion
+from backend.analysis import produccion_promedio_por_anio, correlacion_clima_produccion, resumen_estadistico
 from backend.visualization import grafico_produccion_por_anio
 import matplotlib.pyplot as plt
-
+from flask import Flask
+'''
 if __name__ == "__main__":
-    # Cargar datos
     df = cargar_dataset("data/climate_change_impact_on_agriculture_2024.csv")
     if df is not None:
         df = limpiar_dataset(df)
 
-        # Análisis
+        print("Resumen estadístico:\n", resumen_estadistico(df), "\n")
+
         print("Producción promedio por año:")
-        print(produccion_promedio_por_anio(df))
+        print(produccion_promedio_por_anio(df), "\n")
 
-        print("\nCorrelación entre variables climáticas y producción:")
-        print(correlacion_clima_produccion(df))
+        print("Correlación clima ↔ rendimiento:")
+        print(correlacion_clima_produccion(df), "\n")
 
-        # Visualización
         fig = grafico_produccion_por_anio(df)
         plt.show()
+'''
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return 'Flask funcionando ✅ — AgriClimate test'
+
+if __name__ == '__main__':
+    # debug=True para desarrollo local (hot reload)
+    app.run(debug=True)
