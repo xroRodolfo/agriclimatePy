@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriClimate - Análisis del Cambio Climático</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+        color: #333;
+      }
+      header {
+        background: #2e7d32;
+        color: white;
+        padding: 20px 0;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      header h1 {
+        margin: 0;
+        font-size: 2.2rem;
+      }
+      header p {
+        font-size: 1rem;
+        margin: 5px 0 0;
+      }
+      main {
+        max-width: 900px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+      section {
+        margin-bottom: 40px;
+      }
+      h2 {
+        border-left: 5px solid #43a047;
+        padding-left: 10px;
+        color: #2e7d32;
+      }
+      p {
+        line-height: 1.6;
+      }
+      .grafico {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .grafico img {
+        max-width: 100%;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+      }
+      .boton {
+        display: inline-block;
+        background: #43a047;
+        color: white;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        transition: background 0.3s;
+      }
+      .boton:hover {
+        background: #2e7d32;
+      }
+      footer {
+        background: #2e7d32;
+        color: white;
+        text-align: center;
+        padding: 15px 0;
+        margin-top: 40px;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🌾 AgriClimate</h1>
+      <p>Análisis del impacto del cambio climático en la agricultura</p>
+    </header>
+
+    <main>
+      <section id="intro">
+        <h2>Objetivo del Proyecto</h2>
+        <p>
+          Este sistema analiza cómo la variación de factores climáticos afecta
+          la producción agrícola en distintas regiones, identificando patrones y
+          riesgos para la seguridad alimentaria.
+        </p>
+      </section>
+
+      <section id="resultados">
+        <h2>Resultados del Análisis</h2>
+
+        <!-- Métricas clave -->
+        {% if metricas %}
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+          "
+        >
+          <div
+            style="
+              background: #f1f8e9;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: center;
+              border-left: 4px solid #43a047;
+            "
+          >
+            <h3 style="margin: 0; color: #2e7d32; font-size: 2rem">
+              {{ metricas.rendimiento_promedio }}
+            </h3>
+            <p style="margin: 5px 0 0; color: #666">
+              Rendimiento Promedio (MT/HA)
+            </p>
+          </div>
+
+          <div
+            style="
+              background: #e3f2fd;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: center;
+              border-left: 4px solid #1976d2;
+            "
+          >
+            <h3 style="margin: 0; color: #1565c0; font-size: 2rem">
+              {{ metricas.temperatura_promedio }}°C
+            </h3>
+            <p style="margin: 5px 0 0; color: #666">Temperatura Promedio</p>
+          </div>
+
+          <div
+            style="
+              background: #e1f5fe;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: center;
+              border-left: 4px solid #0288d1;
+            "
+          >
+            <h3 style="margin: 0; color: #01579b; font-size: 2rem">
+              {{ metricas.precipitacion_promedio }} mm
+            </h3>
+            <p style="margin: 5px 0 0; color: #666">Precipitación Promedio</p>
+          </div>
+
+          <div
+            style="
+              background: #fff3e0;
+              padding: 20px;
+              border-radius: 8px;
+              text-align: center;
+              border-left: 4px solid #f57c00;
+            "
+          >
+            <h3 style="margin: 0; color: #e65100; font-size: 2rem">
+              {{ metricas.total_registros }}
+            </h3>
+            <p style="margin: 5px 0 0; color: #666">Registros Analizados</p>
+          </div>
+        </div>
+
+        <p style="text-align: center; color: #666; margin: 10px 0 20px">
+          <strong>Período analizado:</strong> {{ metricas.anios }}
+        </p>
+        {% endif %}
+
+        <div class="grafico">
+          {% if grafico_base64 %}
+          <img
+            src="data:image/png;base64,{{ grafico_base64 }}"
+            alt="Gráfico de rendimiento"
+          />
+          {% else %}
+          <p><em>El gráfico se generará una vez se procese el dataset.</em></p>
+          {% endif %}
+        </div>
+      </section>
+      <section id="factores">
+        <h2>Factores Climáticos de Mayor Impacto</h2>
+        <p>
+          Estos son los 3 factores que más influyen en el rendimiento agrícola:
+        </p>
+
+        {% if top_factores %}
+        <div style="margin: 20px 0">
+          {% for factor in top_factores %}
+          <div
+            style="background: {% if factor.impacto == 'positivo' %}#e8f5e9{% else %}#ffebee{% endif %}; 
+                padding: 15px; 
+                border-radius: 8px; 
+                margin: 10px 0; 
+                border-left: 5px solid {% if factor.impacto == 'positivo' %}#43a047{% else %}#e53935{% endif %};"
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <div>
+                <strong style="font-size: 1.1rem; color: #333"
+                  >{{ factor.nombre.replace('_', ' ') }}</strong
+                >
+                <p style="margin: 5px 0 0; color: #666">
+                  Impacto {{ factor.impacto }} • Correlación: {{ factor.valor }}
+                </p>
+              </div>
+              <div style="text-align: right">
+                <span
+                  style="font-size: 1.5rem; font-weight: bold; color: {% if factor.impacto == 'positivo' %}#2e7d32{% else %}#c62828{% endif %};"
+                >
+                  {% if factor.impacto == 'positivo' %}+{% else %}-{% endif %}{{
+                  factor.porcentaje }}%
+                </span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </section>
+      <section id="correlaciones">
+        <h2>📊 Análisis de Correlaciones</h2>
+        <p>Visualización completa del impacto de cada factor climático:</p>
+
+        <div class="grafico">
+          {% if grafico_correlaciones_base64 %}
+          <img
+            src="data:image/png;base64,{{ grafico_correlaciones_base64 }}"
+            alt="Gráfico de correlaciones"
+          />
+          {% endif %}
+        </div>
+      </section>
+      <section id="acciones">
+        <h2>Exportar Resultados</h2>
+        <a href="/exportar" class="boton">Descargar reporte PDF</a>
+      </section>
+    </main>
+
+    <footer>
+      © 2025 AgriClimate Team — Proyecto educativo desarrollado en Python +
+      Flask
+    </footer>
+  </body>
+</html>
